@@ -14,4 +14,4 @@ router.post("/reply/:id",protectRoute,replyToPost)
 
 
 
-export default router;
+export default router; 
