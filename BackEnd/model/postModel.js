@@ -36,15 +36,16 @@ const postSchema = mongoose.Schema({
             },
             username:{
                 type: String
-            }
+            },
 
-        }
-    ]
+        },
+    ],
 
 
 },{
-    timeStamps:true
-})
+    timestamps:true
+}
+);
 
 const Post = mongoose.model("Post",postSchema);
 export default Post

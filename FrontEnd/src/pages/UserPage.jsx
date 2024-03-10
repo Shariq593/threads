@@ -1,53 +1,67 @@
 import React from 'react';
 import { useEffect, useState } from "react"
 import UserHeader from "../components/UserHeader"
-import UserPost from "../components/UserPost"
 import { useParams } from "react-router-dom"
-import { useToast } from "@chakra-ui/react"
+import { Flex, Spinner, useToast } from "@chakra-ui/react"
+import Post from '../components/Post';
+import useGetUserProfile from '../hooks/useGetUserProfile';
 
 function UserPage() {
-
-  const [user,setUser] = useState(null)
+  const {user,loading} = useGetUserProfile();
   const {username} = useParams()
   const showToast = useToast()
-  useEffect(() =>{
-    const getUser = async () => {
-      try {
-        const res = await fetch(`/api/users/profile/${username}`);
-				const data = await res.json();
-				console.log(data);
-        if(data.error){
-          showToast({
-            title: "Error",
-            description: data.error,
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-          return
-        }
-        setUser(data)
-      } catch (error) {
-        showToast("Error",error,"error")
+  const [posts,setPosts] = useState([])
+  const [fetchingPost,setFetchingPost] =useState(true)
 
+  useEffect(() =>{
+
+    const getPosts = async () => {
+      setFetchingPost(true)
+      try {
+        const res = await fetch(`/api/posts/user/${username}`);
+        const data = await res.json()
+        console.log(data)
+        setPosts(data)
+      } catch (error) {
+        showToast("Error",error.message,"error")
+        setPosts([])
+      } finally {
+        setFetchingPost(false)
       }
     }
 
-    getUser();
+    getPosts();
   },[username,showToast]) 
 
-if(!user) return null;
+
+  if(!user && loading){
+    return (
+      <Flex justifyContent={"center"}>
+        <Spinner size="xl" />
+      </Flex>
+
+    )
+  }
+  if(!user && !loading) return <h1>User not Found</h1>
+
+  if(!user) return null;
 
  
   
   return (
     <>
 			<UserHeader user={user} />
-      <UserPost likes={241} replies={345} postImg = "/post1.png " postTitle ="Lets talk about threads"/>
-      <UserPost likes={451} replies={214} postImg ="/post2.png" postTitle =" Nice tutorial"/>
-      <UserPost likes={134} replies={213} postImg ="/post3.png" postTitle =" Not a nice guy"/>
-      <UserPost likes={435} replies={543}  postTitle =" This is my first post"/>
-      
+      {!fetchingPost && posts.length === 0 && <h1>user has no Posts</h1>}
+      {fetchingPost && (
+        <Flex justifyContent={"center"} my={12}>
+          <Spinner size={"xl"} />
+
+        </Flex>
+      )}
+
+      {posts.map( (post) => (
+        <Post key={post._id} post ={post} postedBy={post.postedBy} />
+      ))}
     </>
   )
 }
