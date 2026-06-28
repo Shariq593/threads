@@ -5,6 +5,7 @@ import cors from "cors";
 import userRoutes from "./Routes/userRoutes.js";
 import connectDB from "./db/connectDB.js";
 import postRoutes from "./Routes/postRoutes.js";
+import notificationRoutes from "./Routes/notificationRoutes.js";
 import {v2 as cloudinary} from "cloudinary";
 
 dotenv.config();
@@ -34,5 +35,6 @@ app.use(cookieParser());
 //Routes
 app.use("/api/users",userRoutes)
 app.use("/api/posts",postRoutes)
+app.use("/api/notifications",notificationRoutes)
 
 app.listen(PORT, ()=> console.log(`Server Started at http://localhost:${PORT}`));       

@@ -1,16 +1,14 @@
 import { Flex, Spinner, Text, Divider } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
-import userAtom from "../atoms/userAtom";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import Post from "../components/Post";
+import SuggestedUsers from "../components/SuggestedUsers";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [suggested, setSuggested] = useState(false)
   const showToast = useShowToast()
-  const user = useRecoilValue(userAtom)
 
   useEffect(() => {
     const getFeedPost = async () => {
@@ -71,6 +69,8 @@ const HomePage = () => {
           onDelete={(id) => setPosts((prev) => prev.filter((p) => p._id !== id))}
         />
       ))}
+
+      <SuggestedUsers />
     </>
   )
 }

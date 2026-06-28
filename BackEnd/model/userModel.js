@@ -36,7 +36,12 @@ const userSchema = mongoose.Schema(
 		bio: {
 			type: String,
 			default: "",
-		}
+		},
+		bookmarks: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: "Post",
+			default: [],
+		},
 	},
 	{
 		timestamps: true,

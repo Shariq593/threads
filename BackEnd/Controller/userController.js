@@ -193,6 +193,44 @@ const updateUser = async(req,res) => {
 
 
 
-export {signupUser,loginUser,logoutUser, followUnfollowUser, updateUser, getUserProfile}
+const searchUsers = async (req, res) => {
+    try {
+        const q = req.query.q?.trim();
+        if (!q) return res.status(200).json([]);
+        const users = await User.find({
+            $or: [
+                { username: { $regex: q, $options: "i" } },
+                { name: { $regex: q, $options: "i" } },
+            ],
+            _id: { $ne: req.user._id },
+        })
+            .select("-password -updatedAt")
+            .limit(20);
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getSuggestedUsers = async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.user._id);
+        const excludeIds = [...currentUser.following.map(id => id.toString()), req.user._id.toString()];
+
+        const users = await User.aggregate([
+            { $match: { _id: { $nin: excludeIds.map(id => new mongoose.Types.ObjectId(id)) } } },
+            { $addFields: { followerCount: { $size: "$followers" } } },
+            { $sort: { followerCount: -1 } },
+            { $limit: 5 },
+            { $project: { password: 0, updatedAt: 0 } },
+        ]);
+
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export {signupUser,loginUser,logoutUser, followUnfollowUser, updateUser, getUserProfile, searchUsers, getSuggestedUsers}
 
  
