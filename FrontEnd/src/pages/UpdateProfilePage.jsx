@@ -49,8 +49,8 @@ export default function UpdateProfilePage() {
           body: JSON.stringify({...inputs, profilePic: imgUrl})
         })
         const data =await res.json()
-        if(data.erroe){
-          showToast("Error",data.error,error)
+        if(data.error){
+          showToast("Error",data.error,"error")
           return
         }
         showToast("Success","Profile Updates Successfully","success" )

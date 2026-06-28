@@ -13,7 +13,7 @@ dotenv.config() //to read the env file
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 5000
 
 
 cloudinary.config({
@@ -33,4 +33,4 @@ app.use(cookieParser())
 app.use("/api/users",userRoutes)
 app.use("/api/posts",postRoutes)
 
-app.listen(5000, ()=> console.log(`Server Started at http://localhost:${PORT}`));       
+app.listen(PORT, ()=> console.log(`Server Started at http://localhost:${PORT}`));       

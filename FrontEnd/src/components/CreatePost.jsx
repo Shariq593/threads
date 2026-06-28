@@ -1,5 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { Button, CloseButton, Flex, FormControl, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
+import { Button, CloseButton, Flex, FormControl, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import usePreviewImg from '../hooks/usePreviewimg'
 import { BsFillImageFill } from 'react-icons/bs'
@@ -23,7 +23,7 @@ const CreatePost = () => {
     const handleTextChange= (e) => {
         const inputText = e.target.value
         if(inputText.length > MAX_CHAR){
-            const truncateText = inputText.slice(e, MAX_CHAR);
+            const truncateText = inputText.slice(0, MAX_CHAR);
             setPostText(truncateText)
             setRemainingChar(0)
         }else{
@@ -54,7 +54,7 @@ const CreatePost = () => {
             setPostText("")
             setImgUrl("")
         } catch (error) {
-            useToast("Error",error, "error")
+            showToast("Error",error.message, "error")
         } finally{
             setLoading(false)
         }

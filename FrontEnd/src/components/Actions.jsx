@@ -20,8 +20,8 @@ const Actions = ( {post:post_}) => {
 		return null
 	}
 	const hadnleLikeAndUnlike = async () =>{
-		if(!user )return showToast("Error",error,"error")
-		setIsReplying(true)
+		if(!user) return showToast("Error","You must be logged in to like a post","error")
+		setLiked(prev => !prev)
 		try {
 			const res = await fetch("/api/posts/like/" + post._id,{
 				method:"PUT",
@@ -31,7 +31,8 @@ const Actions = ( {post:post_}) => {
 			});
 			const data =await res.json();
 			if(data.error){
-				showToast("Error",error,"error")
+				setLiked(prev => !prev)
+				showToast("Error",data.error,"error")
 			}
 			if(!liked){
 				// add id to current user to post likes array
@@ -49,7 +50,7 @@ const Actions = ( {post:post_}) => {
 
 
 	const handleReply = async () => {
-		if(!user )return showToast("Error",error,"error")
+		if(!user) return showToast("Error","You must be logged in to reply","error")
 		try {
 	const res = await fetch("/api/posts/reply/"+post._id,{
 		method: "PUT",

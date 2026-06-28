@@ -16,7 +16,7 @@ const getUserProfile = async(req,res) => {
 		if(mongoose.Types.ObjectId.isValid(query)){
 			user = await User.findOne({ _id: query}).select("-password").select("-updatedAt")
 		} else{
-		 user= await User.findOne({username: query}).select("-password").select(-"updatedAt");
+		 user= await User.findOne({username: query}).select("-password -updatedAt");
 
 		}
 
@@ -35,7 +35,7 @@ const getUserProfile = async(req,res) => {
 const signupUser = async (req, res) => {
 	try {
 		const {name,email,username,password} =req.body;
-		const user = await User.findOne({$or:[{email},{password}]});
+		const user = await User.findOne({$or:[{email},{username}]});
 
 		if(user){
 			return res.status(400).json({error:"User alreadyready exists"})

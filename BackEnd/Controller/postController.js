@@ -22,7 +22,7 @@ const createPost = async (req,res)=> {
 
         const maxLength =500
         if(text.length > maxLength){
-            res.status(500).json({ error: `Text must be less than ${maxLength} characters ` });
+            return res.status(400).json({ error: `Text must be less than ${maxLength} characters ` });
         }
 
         if(img){
@@ -50,7 +50,7 @@ const getPost = async(req,res) => {
         const post = await Post.findById(req.params.id)
 
         if(!post){
-            return res.status(500).json({ error: "post not found" });
+            return res.status(404).json({ error: "post not found" });
         }
     
         res.status(200).json(post)
@@ -68,7 +68,7 @@ const deletePost = async(req,res)=> {
             return res.status(404).json({ error: "Post not Found" });
         }
         if(post.postedBy.toString() !== req.user._id.toString()){
-            return res.status(500).json({ error: "Unauthorized to delete Post" });
+            return res.status(403).json({ error: "Unauthorized to delete Post" });
         }
         if(post.img){
             const imgId = post.img.split("/").pop().split(".")[0];
@@ -143,7 +143,7 @@ const getFeedPost = async(req,res) => {
         const userId= req.user._id;
         const user = await User.findById(userId);
         if(!user){
-            res.status(404).json({ error: "User not Found" });
+            return res.status(404).json({ error: "User not Found" });
         }
 
         const following =user.following;

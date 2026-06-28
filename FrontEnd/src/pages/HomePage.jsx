@@ -9,7 +9,7 @@ import Post from "../components/Post";
 const HomePage =() => {
   const [posts,setPosts] = useState([])
   const [ loading,setLoading] = useState(true)
-  const showToast = useShowToast 
+  const showToast = useShowToast()
   useEffect( () => {
     const getFeedPost = async () => {
       setLoading(true)
