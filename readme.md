@@ -1,30 +1,125 @@
+# Threads Clone
 
-## **Threads Social Media Clone**
-Project Overview
-This project is a social media clone inspired by the concept of threads, where users can create and interact with posts in a threaded format. The application is built using the MERN stack (MongoDB, Express.js, React.js, Node.js) combined with Socket.io for real-time interactions and Chakra UI for the design framework.
+A full-stack social media app inspired by Meta Threads — built with the MERN stack, Cloudinary for media, and JWT auth via httpOnly cookies.
+
+**Live demo →** [threads-v0oe.onrender.com](https://threads-v0oe.onrender.com)
+
+> **Test account**
+> `username: demo123` · `password: demo123456`
+
+---
 
 ## Features
-1.** Authentication & Authorization with JWT**: Secure login and signup functionality using JSON Web Tokens (JWT) for user authentication and role-based access control.
-2.** Create Post**: Users can create posts that are displayed in a thread-like format.
-3.** Delete Post**: Users can delete their own posts.
-4.** Like/Unlike Post**: Users can like or unlike posts.
-5.** Comment on a Post**: Users can add comments to posts, facilitating discussions.
-6.** Follow/Unfollow Users**: Users can follow or unfollow other users to curate their thread feed.
-7.** Dark/Light Mode**: The app supports both dark and light themes, with the ability to toggle between them.
-8.** Completely Responsive**: The application is fully responsive, providing an optimal user experience across different devices.
-## **Tech Stack**
-- **Frontend**: React.js, Chakra UI
-- **Backend**: Node.js, Express.js, Socket.io
-- **Database**: MongoDB
-- **Authentication**: JSON Web Tokens (JWT)
-- **Real-Time Features**: Socket.io for real-time communication
 
+| Feature | Details |
+|---|---|
+| Auth | Signup / Login / Logout with JWT (httpOnly cookie) |
+| Posts | Create, delete, edit posts with optional image upload |
+| Feed | Home feed (following + own posts), suggested posts when following nobody |
+| Explore | Browse all posts with pagination |
+| Search | Find users by username or name, follow inline |
+| Notifications | Likes, replies, follows, reposts — with unread badge |
+| Bookmarks | Save posts and view them later |
+| Repost | One-click repost with count tracking |
+| Suggested Users | Top unfollowed accounts shown on home feed |
+| Follow / Unfollow | Follow users to populate your feed |
+| Like / Unlike | Optimistic UI update |
+| Reply | Threaded replies on posts |
+| Dark / Light mode | Toggle via the logo |
+| Responsive | Works across all screen sizes |
 
-## **Environment variables**
+---
 
+## Tech Stack
 
-## **Usage**
-- **Sign Up/Login**: Create a new account or log in using existing credentials.
-- **Create a Post**: Share your thoughts by creating a new post.
-- **Interact**: Like, comment, or delete posts as desired. Follow or unfollow other users to personalize your feed.
-- **Account Management**: Freeze your account temporarily if needed. Toggle between dark and light modes for a customized experience.
+**Frontend**
+- React 18 + Vite
+- Chakra UI
+- Recoil (global state)
+- React Router v6
+
+**Backend**
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT auth (httpOnly cookies)
+- Cloudinary (image uploads)
+- bcryptjs
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas account
+- Cloudinary account
+
+### Clone & install
+
+```bash
+git clone https://github.com/Shariq593/threads.git
+cd threads
+
+# Install backend deps
+cd BackEnd && npm install
+
+# Install frontend deps
+cd ../FrontEnd && npm install
+```
+
+### Environment variables
+
+Create `BackEnd/.env`:
+
+```env
+PORT=8000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+FRONTEND_URL=http://localhost:3000   # or your Vercel URL in production
+```
+
+### Run locally
+
+```bash
+# Terminal 1 — backend (runs on :8000)
+cd BackEnd && npm run dev
+
+# Terminal 2 — frontend (runs on :3000)
+cd FrontEnd && npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Deployment
+
+| Service | Purpose |
+|---|---|
+| [Render](https://render.com) | Node.js backend — set Root Directory to `BackEnd` |
+| [Vercel](https://vercel.com) | React frontend — set Root Directory to `FrontEnd` |
+
+After deploying, set `FRONTEND_URL` on Render to your Vercel URL so CORS works correctly.
+
+---
+
+## Project Structure
+
+```
+threads/
+├── BackEnd/
+│   ├── Controller/       # Route handlers
+│   ├── Routes/           # Express routers
+│   ├── model/            # Mongoose schemas
+│   ├── middlewares/      # JWT auth guard
+│   └── server.js
+└── FrontEnd/
+    └── src/
+        ├── components/   # Reusable UI
+        ├── pages/        # Route-level pages
+        ├── hooks/        # Custom hooks
+        └── atoms/        # Recoil state
+```
