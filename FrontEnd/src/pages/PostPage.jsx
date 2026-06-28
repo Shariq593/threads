@@ -49,7 +49,7 @@ function PostPage() {
       })
       const data = await res.json()
       if(data.error){
-         showToast("error",error.message,"error")
+         showToast("error",data.error,"error")
         return
       }
 
@@ -62,7 +62,6 @@ function PostPage() {
     }
   }
 
-  if(!post) return null;
   if(!user && loading){
     return(
       <Flex justifyContent={"center"}>
@@ -70,11 +69,12 @@ function PostPage() {
         </Flex>
       )
     }
+  if(!post || !user) return null;
     return (
     <>
     <Flex>
      <Flex w={"full"}  alignItems={"center"} gap={3}>
-        <Avatar src={user.profilePic} size={"md"} name="Mark Zuckerberg"/>
+        <Avatar src={user.profilePic} size={"md"} name={user.name}/>
         <Flex>
           <Text fontSize={"sm"} fontWeight={"bold"}>{user.username}</Text>
           <Image src="/verified.png" w={4} h={4} ml={4}/>

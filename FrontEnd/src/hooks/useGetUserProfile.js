@@ -11,28 +11,20 @@ const useGetUserProfile = () => {
         const getUser = async () => {
             try {
               const res = await fetch(`/api/users/profile/${username}`);
-                      const data = await res.json(); 
-      
+              const data = await res.json();
               if(data.error){
-                showToast({
-                  title: "Error",
-                  description: data.error,
-                  status: "error",
-                  duration: 3000,
-                  isClosable: true,
-                });
+                showToast("Error", data.error, "error");
                 return
               }
               setUser(data)
             } catch (error) {
               showToast("Error",error.message,"error")
-      
             } finally{
               setLoading(false)
             }
           }
           getUser()
-    },[{username,showToast}])
+    },[username, showToast])
     return {loading,user}
 }
 

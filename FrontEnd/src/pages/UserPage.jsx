@@ -2,14 +2,15 @@ import React from 'react';
 import { useEffect, useState } from "react"
 import UserHeader from "../components/UserHeader"
 import { useParams } from "react-router-dom"
-import { Flex, Spinner, useToast } from "@chakra-ui/react"
+import { Flex, Spinner } from "@chakra-ui/react"
 import Post from '../components/Post';
 import useGetUserProfile from '../hooks/useGetUserProfile';
+import useShowToast from '../hooks/useShowToast';
 
 function UserPage() {
   const {user,loading} = useGetUserProfile();
   const {username} = useParams()
-  const showToast = useToast()
+  const showToast = useShowToast()
   const [posts,setPosts] = useState([])
   const [fetchingPost,setFetchingPost] =useState(true)
 
