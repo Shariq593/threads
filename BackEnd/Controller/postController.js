@@ -146,10 +146,19 @@ const getFeedPost = async(req,res) => {
             return res.status(404).json({ error: "User not Found" });
         }
 
-        const following =user.following;
-        const feedPosts = await Post.find({postedBy:{$in:following}}).sort({createdAt: -1})
+        // include own posts + following posts
+        const feedIds = [...user.following, userId];
+        const feedPosts = await Post.find({postedBy:{$in: feedIds}}).sort({createdAt: -1})
 
-        res.status(200).json(feedPosts)
+        // if still empty, return random suggested posts from other users
+        if(feedPosts.length === 0){
+            const suggestedPosts = await Post.find({postedBy:{$ne: userId}})
+                .sort({createdAt: -1})
+                .limit(20)
+            return res.status(200).json({suggested: true, posts: suggestedPosts})
+        }
+
+        res.status(200).json({suggested: false, posts: feedPosts})
 
     } catch (err) {
         res.status(500).json({ error: err.message });

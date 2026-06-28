@@ -136,12 +136,14 @@ export default function UpdateProfilePage() {
                 type='text'
 						  />
           </FormControl>
-          <FormControl  >
+          <FormControl>
             <FormLabel>Password</FormLabel>
               <Input
-                  placeholder="password"
+                  placeholder="Leave blank to keep current password"
                   _placeholder={{ color: 'gray.500' }}
                   type="password"
+                  value={inputs.password}
+                  onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
             />
           </FormControl>
           <Stack spacing={6} direction={['column', 'row']}>
