@@ -71,7 +71,7 @@ const CreatePost = () => {
         leftIcon={<AddIcon/>}
         bg = {useColorModeValue("gray.300","gray.dark")}
         onClick={onOpen}
-      >POst</Button>
+      >Post</Button>
         <Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 

@@ -24,7 +24,7 @@ function Post({post,postedBy}) {
                 const res= await fetch("/api/users/profile/" + postedBy )
                 const data = await res.json()
                 if(data.error){
-                  showToast("error",error,"error")
+                  showToast("error",data.error,"error")
                   return
                 }
                 setUser(data)
@@ -46,7 +46,7 @@ function Post({post,postedBy}) {
           })
           const data = await res.json()
           if(data.error){
-             showToast("error",error.message,"error")
+             showToast("error",data.error,"error")
             return
           }
           showToast("Success","Post Deleted","success")
@@ -72,12 +72,12 @@ function Post({post,postedBy}) {
                 <Box w="1px" h={"full"} bg='gray.light' my={2}></Box>
                 <Box position={"relative"} w={"full"}>
 
-                  {post.replies.length === 0 && <Text textAlign={"center"}>💀</Text>}
+                  {post.replies.length === 0 && <Box />}
 
                   {post.replies[0] && (
                     <Avatar 
                       size="xs"
-                      name="Shariq"
+                      name={post.replies[0]?.username}
                       src={post.replies[0].userProfilePic}
                       position="absolute"
                       top={"0px"}
@@ -86,9 +86,9 @@ function Post({post,postedBy}) {
                     ></Avatar>
                   )}
                   {post.replies[1] && (
-                    <Avatar 
+                    <Avatar
                       size="xs"
-                      name="Shariq"
+                      name={post.replies[1]?.username}
                       src={post.replies[1].userProfilePic}
                       position="absolute"
                       bottom={"0px"}
@@ -97,9 +97,9 @@ function Post({post,postedBy}) {
                   ></Avatar>
                   )}
                   {post.replies[2] && (
-                    <Avatar 
+                    <Avatar
                       size="xs"
-                      name="Shariq"
+                      name={post.replies[2]?.username}
                       src={post.replies[2].userProfilePic}
                       position="absolute"
                       bottom={"0px"}
@@ -115,7 +115,7 @@ function Post({post,postedBy}) {
 
             {/* Post username and time */}
             <Flex flex={1} flexDirection={"column"} gap={2}>
-              <Flex justifyContent={"space-between"} w={"gull"}>
+              <Flex justifyContent={"space-between"} w={"full"}>
                 <Flex w={"full"} alignItems={"center"}>
                   <Text fontSize={"sm"} fontWeight={"bold"}
                     onClick={ (e) => {

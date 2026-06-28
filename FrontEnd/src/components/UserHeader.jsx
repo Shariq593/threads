@@ -50,7 +50,7 @@ function UserHeader({user}) {
             const data= await res.json();
             console.log(data)
             if(data.error){
-                showToast("Error",error,"error")
+                showToast("Error",data.error,"error")
                 return;
             }
             if(following){
